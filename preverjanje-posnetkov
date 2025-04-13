@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preverjanje Resničnosti Posnetkov</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #f0f4f8;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .explanation {
+            font-size: 1rem;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preverjanje Resničnosti Posnetkov</h1>
+    <form id="urlForm">
+        <label for="urlInput">Prilepite URL posnetka za preverjanje:</label>
+        <input type="text" id="urlInput" placeholder="Vnesite URL (npr. https://...)" required>
+        <button type="submit">Preveri</button>
+        <div class="result" id="result"></div>
+        <div class="explanation" id="explanation"></div>
+    </form>
+
+    <script>
+        const form = document.getElementById('urlForm');
+        const resultDiv = document.getElementById('result');
+        const explanationDiv = document.getElementById('explanation');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const urlInput = document.getElementById('urlInput');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                resultDiv.textContent = "Prosimo, prilepite URL posnetka.";
+                resultDiv.style.color = "red";
+                explanationDiv.textContent = "";
+                return;
+            }
+
+            if (!isValidURL(url)) {
+                resultDiv.textContent = "URL ni veljaven. Prosimo, vnesite pravilno povezavo.";
+                resultDiv.style.color = "red";
+                explanationDiv.textContent = "";
+                return;
+            }
+
+            resultDiv.textContent = "Preverjam posnetek...";
+            resultDiv.style.color = "#333";
+            explanationDiv.textContent = "";
+
+            // Simulacija preverjanja
+            setTimeout(() => {
+                const isFake = Math.random() < 0.5; // Naključna simulacija rezultata
+                if (isFake) {
+                    resultDiv.textContent = "Rezultat: Posnetek je ponarejen.";
+                    resultDiv.style.color = "red";
+                    explanationDiv.textContent = "Razlog: Zaznani so bili sumljivi vzorci, kot so umetni odtenki obraza ali nenaravni gibi.";
+                } else {
+                    resultDiv.textContent = "Rezultat: Posnetek je resničen.";
+                    resultDiv.style.color = "green";
+                    explanationDiv.textContent = "Razlog: Posnetek kaže naravno osvetlitev, gladke prehode in brez vidnih manipulacij.";
+                }
+            }, 2000);
+        });
+
+        // Funkcija za validacijo URL-ja
+        function isValidURL(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
